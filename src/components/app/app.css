@@ -2,3 +2,13 @@
   margin: 0 auto;
   max-width: 1000px;
 }
+
+.wrapper-block {
+  margin: 15px auto;
+  width: 100%;
+  padding: 25px;
+  background-color: #3d5a80;
+  border-radius: 4px;
+  box-shadow: 15px 15px 30px rgba(0, 0, 0, .15);
+  color: #fff;
+}
