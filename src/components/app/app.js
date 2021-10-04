@@ -6,6 +6,14 @@ import EmployeesList from '../employees-list/employees-list';
 import EmployeeAddForm from '../employee-add-form/employee-add-form';
 
 function App() {
+
+  /* Simulation of data from server */
+  const data = [
+    {name: 'John Smith', salary: 1500, increase: false},
+    {name: 'John Doe', salary: 800, increase: false},
+    {name: 'Ivan Ivanov', salary: 500, increase: true}
+  ];
+
   return (
     <div className="app">
       <GeneralInfo />
@@ -16,7 +24,7 @@ function App() {
       </div>
 
       <div className="wrapper-block">
-        <EmployeesList />
+        <EmployeesList data={data} />
 
       </div>
 
@@ -24,7 +32,6 @@ function App() {
         <EmployeeAddForm />
 
       </div>
-
 
     </div>
   );
