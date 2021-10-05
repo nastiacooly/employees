@@ -4,8 +4,10 @@ import EmployeeDetails from '../employee-details/employee-details';
 const EmployeesList = ({data}) => {
 
     const employees = data.map(employee => {
-        return <EmployeeDetails {...employee} />;
-        /* идентично такому коду: name={employee.name} salary={employee.salary} */
+        const {id, ...employeeProps} = employee;
+
+        return <EmployeeDetails key={id} {...employeeProps} />;
+        /* идентично такому коду: key={id} name={employee.name} salary={employee.salary} increase={employee.increase} */
     });
     
     return (
