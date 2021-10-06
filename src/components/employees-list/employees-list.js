@@ -7,7 +7,7 @@ const EmployeesList = ({data}) => {
         const {id, ...employeeProps} = employee;
 
         return <EmployeeDetails key={id} {...employeeProps} />;
-        /* идентично такому коду: key={id} name={employee.name} salary={employee.salary} increase={employee.increase} */
+        /* идентично такому коду: key={id} name={employee.name} salary={employee.salary} и т.д. */
     });
     
     return (

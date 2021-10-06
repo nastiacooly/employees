@@ -9,9 +9,9 @@ function App() {
 
   /* Simulation of data from server */
   const data = [
-    {name: 'John Smith', salary: 1500, increase: false, id: 1},
-    {name: 'John Doe', salary: 800, increase: false, id: 2},
-    {name: 'Ivan Ivanov', salary: 500, increase: true, id: 3}
+    {name: 'John Smith', salary: 1500, raise: false, liked: false, id: 1},
+    {name: 'John Doe', salary: 800, raise: false, liked: false, id: 2},
+    {name: 'Ivan Ivanov', salary: 500, raise: true, liked: false, id: 3}
   ];
 
   return (
