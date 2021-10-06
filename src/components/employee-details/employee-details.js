@@ -1,4 +1,5 @@
 import { Component } from 'react';
+
 import "./employee-details.css";
 
 class EmployeeDetails extends Component {
@@ -23,7 +24,7 @@ class EmployeeDetails extends Component {
     }
 
     render() {
-        const {name, salary} = this.props;
+        const {name, salary, onDelete} = this.props;
         const {raise, liked} = this.state;
 
         let classNames = "list-group-item d-flex justify-content-between";
@@ -55,7 +56,8 @@ class EmployeeDetails extends Component {
                     </button>
                     <button
                         type="button"
-                        className="btn-trash btn-sm">
+                        className="btn-trash btn-sm"
+                        onClick={onDelete}>
                             <i className="fa-solid fa-trash"></i>
                     </button>
                     <i className="fa-solid fa-star"></i>
