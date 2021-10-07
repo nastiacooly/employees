@@ -6,7 +6,8 @@ class EmployeeAddForm extends Component {
         super(props);
         this.state = {
             name: '',
-            salary: ''
+            salary: '',
+            errorMessage: ''
         }
     }
 
@@ -20,16 +21,39 @@ class EmployeeAddForm extends Component {
         e.preventDefault();
         const {onAdd} = this.props;
         const {name, salary} = this.state;
+
+        /* Form validation */
+        if (name.length < 3) {
+            this.setState({
+                errorMessage: 'Name should be at least 3 characters long'
+            });
+            return;
+        } 
+        if (name.match(/\d/)) {
+            this.setState({
+                errorMessage: 'Name cannot contain numbers'
+            });
+            return;
+        } 
+        if (salary < 0) {
+            this.setState({
+                errorMessage: 'Salary should be a positive number'
+            });
+            return;
+        } 
+
+        /* Form submission with valid information */
         onAdd(name, salary);
-        /* To clear form after submit */
+        /* Clearing form and state after submit */
         this.setState({
             name: '',
-            salary: ''
+            salary: '',
+            errorMessage: ''
         });
     }
 
     render() {
-        const {name, salary} = this.state;
+        const {name, salary, errorMessage} = this.state;
         
         return (
             <div className="employee-add-form">
@@ -59,6 +83,10 @@ class EmployeeAddForm extends Component {
                                 Add
                         </button>
                 </form>
+                <div
+                    className="message">
+                        {errorMessage}
+                </div>
             </div>
         )
     }

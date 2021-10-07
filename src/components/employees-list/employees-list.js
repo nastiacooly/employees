@@ -2,7 +2,7 @@ import EmployeeDetails from '../employee-details/employee-details';
 
 import "./employees-list.css";
 
-const EmployeesList = ({data, onDelete}) => {
+const EmployeesList = ({data, onDelete, onToggleProp}) => {
 
     const employees = data.map(employee => {
         const {id, ...employeeProps} = employee;
@@ -11,9 +11,11 @@ const EmployeesList = ({data, onDelete}) => {
             <EmployeeDetails 
                 key={id} 
                 {...employeeProps} 
+                /* идентично такому коду: key={id} name={employee.name} salary={employee.salary} и т.д. */
                 onDelete={ () => onDelete(id) }
-                />);
-        /* идентично такому коду: key={id} name={employee.name} salary={employee.salary} и т.д. */
+                onToggleProp={ (e) => onToggleProp(id, e.currentTarget.dataset.toggle)}
+                />
+        );
     });
     
     return (

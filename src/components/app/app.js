@@ -14,12 +14,16 @@ class App extends Component {
     this.state = {
       /* Simulation of data from server */
       data: [
-        {name: 'John Smith', salary: 1500, raise: false, liked: false, id: 1},
-        {name: 'John Doe', salary: 800, raise: false, liked: false, id: 2},
-        {name: 'Ivan Ivanov', salary: 500, raise: true, liked: false, id: 3}
+        {name: 'John Smith', salary: 1500, bonus: false, raise: true, id: 1},
+        {name: 'John Doe', salary: 800, bonus: false, raise: false, id: 2},
+        {name: 'Ivan Ivanov', salary: 500, bonus: true, raise: false, id: 3}
       ]
     }
-    this.maxId = 4;
+    this._nextId = this.state.data.length + 1;
+  }
+
+  get accessorNextId() {
+    return this._nextId++
   }
 
   deleteItem = (id) => {
@@ -42,9 +46,9 @@ class App extends Component {
     const newItem = {
       name: name,
       salary: salary,
+      bonus: false,
       raise: false,
-      liked: false,
-      id: this.maxId++
+      id: this.accessorNextId
     }
 
     this.setState( ({data}) => {
@@ -55,12 +59,54 @@ class App extends Component {
     })
   }
 
+  onToggleProp = (id, prop) => {
+    /* Toggles certain property of employee object with certain 'id' in this.state.data */
+    this.setState( ({data}) => {
+      // Error checking
+      const keys = Object.keys(data[0]);
+      if (!keys.includes(prop)) {
+        throw new Error('A boolean property of an employee object should be included as an argument of this function');
+      }
+
+      const newData = data.map(employee => {
+        if (employee.id === +id) {
+          return {...employee, [prop]: !employee[prop]};
+        }
+
+        return employee;
+      });
+      return {
+        data: newData
+      }
+    });
+
+    /* Other option
+
+    this.setState( ({data}) => {
+      const index = data.findIndex(elem => elem.id === +id);
+
+      const updatedEmployee = {...data[index]};
+      updatedEmployee.raise = !updatedEmployee.raise;
+
+      const newData = [...data.slice(0, index), updatedEmployee, ...data.slice(index + 1)];
+
+      return {
+        data: newData
+      }
+    }); */
+  }
+
   render() {
     const {data} = this.state;
+    const totalEmployees = data.length;
+    const totalEmployeesToBeRewarded = data.filter(employee => employee.bonus === true).length;
 
     return (
       <div className="app">
-        <GeneralInfo />
+        <GeneralInfo
+          totalEmployees={totalEmployees}
+          totalEmployeesToBeRewarded={totalEmployeesToBeRewarded}
+        />
   
         <div className="wrapper-block">
           <EmployeesSearch />
@@ -70,6 +116,7 @@ class App extends Component {
         <EmployeesList 
           data={data}
           onDelete={this.deleteItem}
+          onToggleProp={this.onToggleProp}
         />
   
         <div className="wrapper-block">
