@@ -17,7 +17,8 @@ class App extends Component {
         {name: 'John Smith', salary: 1500, bonus: false, raise: true, id: 1},
         {name: 'John Doe', salary: 800, bonus: false, raise: false, id: 2},
         {name: 'Ivan Ivanov', salary: 500, bonus: true, raise: false, id: 3}
-      ]
+      ],
+      searchValue: ''
     }
     this._nextId = this.state.data.length + 1;
   }
@@ -60,7 +61,10 @@ class App extends Component {
   }
 
   onToggleProp = (id, prop) => {
-    /* Toggles certain property of employee object with certain 'id' in this.state.data */
+    /* 
+      Toggles certain property of employee object 
+      with certain 'id' in this.state.data
+    */
     this.setState( ({data}) => {
       // Error checking
       const keys = Object.keys(data[0]);
@@ -96,10 +100,33 @@ class App extends Component {
     }); */
   }
 
+  searchEmployee = (value, data) => {
+    /* 
+      Returns array with employee objects
+      where 'name' property corresponds with 
+      searched value 
+    */
+    if (value.length === 0) {
+      return data;
+    }
+
+    return data.filter(employee => {
+      // returns employees where searched value is a part of a name string
+      // indexOf() returns -1 in case str does not include searched value
+      return employee.name.toLowerCase().indexOf(value) > -1;
+    });
+  }
+
+  onUpdateSearch = (searchValue) => {
+    this.setState({searchValue});
+  }
+
   render() {
-    const {data} = this.state;
+    const {data, searchValue} = this.state;
     const totalEmployees = data.length;
     const totalEmployeesToBeRewarded = data.filter(employee => employee.bonus === true).length;
+
+    const searchResult = this.searchEmployee(searchValue, data);
 
     return (
       <div className="app">
@@ -109,12 +136,12 @@ class App extends Component {
         />
   
         <div className="wrapper-block">
-          <EmployeesSearch />
+          <EmployeesSearch onUpdateSearch={this.onUpdateSearch}/>
           <EmployeesFilter />
         </div>
   
         <EmployeesList 
-          data={data}
+          data={searchResult}
           onDelete={this.deleteItem}
           onToggleProp={this.onToggleProp}
         />
