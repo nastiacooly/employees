@@ -156,6 +156,27 @@ class App extends Component {
     return data;
   }
 
+  onChangeSalary = (id, newSalary) => {
+    /* 
+      Saves new 'salary' property of employee object 
+      with certain 'id' in this.state.data
+    */
+
+    // Saving new salary
+    this.setState(({data}) => {
+      const newData = data.map(employee => {
+        if (employee.id === +id) {
+          return {...employee, salary: newSalary}
+        }
+        return employee;
+      })
+      
+      return {
+        data: newData
+      }
+    });
+  }
+
   render() {
     const {data, searchValue} = this.state;
     const totalEmployees = data.length;
@@ -183,6 +204,7 @@ class App extends Component {
           data={visibleEmployees}
           onDelete={this.deleteItem}
           onToggleProp={this.onToggleProp}
+          onChangeSalary={this.onChangeSalary}
         />
   
         <div className="wrapper-block">
